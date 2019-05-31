@@ -7,7 +7,7 @@ local navioTanque = require("entidades/navioTanque")
 local contratorpedo = require("entidades/contratorpedo")
 local submarino = require("entidades/submarino")
 
--- isso aqui deve estar dentro de uma funcao iniciar partida
+------------------------------------ funcao iniciar partida -----------------------------------
 --criando tabuleiros
 local tabPlayer1 = tabuleiro.novo(2)
 local tabPlayer2 = tabuleiro.novo(2)
@@ -31,25 +31,77 @@ print(player2.tabuleiroMaquina.posicoes[1])
 
 -- chama funcao posicionar navios
 
---- aqui finaliza iniciar partida -----
+------------------------ aqui finaliza funcao iniciar partida ----------------------------------
 
----isso aqui deve estar dentro de uma funcao chamada posicionar navios
--- primeiro escolhe a posicão do portaAvioes (pos1, pos2, pos3, pos4, pos5)
---player1:escolher_posicoesPortaAvioes(pos1, pos2, pos3, pos4, pos5)
---player2:escolher_posicoesPortaAvioes()
+------------------------------------- funcao posicionar navios ---------------------------------
 
--- segundo escolhe a posicão do navioTanque
---player1:escolher_posicoesNavioTanque(pos1, pos2, pos3, pos4)
---player2:escolher_posicoesNavioTanque()
+if tabPlayer1:verificaTipo() == 1 then
+	local cont = 0
+	for cont = 1, 1, 1 do -- Enquanto cont for menor ou igual a 2 ele é incrementado de 1 a 1
+		-- escolhe a posicão do navioTanque
+		player1:escolher_posicoesNavioTanque(pos1, pos2, pos3, pos4)
+		player2:escolher_posicoesNavioTanque()
+	end -- fecha o comando "for"
+	for cont = 1, 1, 1 do
+		-- escolhe a posicão do contratorpedo
+		player1:escolher_posicoesContratorpedo(pos1, pos2, pos3)
+		player2:escolher_posicoesContratorpedo()
+	end
+	for cont = 1, 2, 1 do
+		-- escolhe a posicão do submarinos
+		player1:escolher_posicoesSubmarino(pos1, pos2)
+		player2:escolher_posicoesSubmarino()
+	end
+elseif tabPlayer1:verificaTipo() == 2 then
+	local cont = 0
+	for cont = 1, 1, 1 do -- Enquanto cont for menor ou igual a 2 ele é incrementado de 1 a 1
+		-- escolhe a posicão do portaAvioes
+		player1:escolher_posicoesPortaAvioes(pos1, pos2, pos3, pos4, pos5)
+		player2:escolher_posicoesPortaAvioes()
+	end -- fecha o comando "for"
+	for cont = 1, 2, 1 do
+		-- escolhe a posicão do navioTanque
+		player1:escolher_posicoesNavioTanque(pos1, pos2, pos3, pos4)
+		player2:escolher_posicoesNavioTanque()
+	end -- fecha o comando "for"
+	for cont = 1, 3, 1 do
+		-- escolhe a posicão do contratorpedo
+		player1:escolher_posicoesContratorpedo(pos1, pos2, pos3)
+		player2:escolher_posicoesContratorpedo()
+	end
+	for cont = 1, 4, 1 do
+		-- escolhe a posicão do submarinos
+		player1:escolher_posicoesSubmarino(pos1, pos2)
+		player2:escolher_posicoesSubmarino()
+	end
+elseif tabPlayer1:verificaTipo() == 3 then
+	local cont = 0
+	for cont = 1, 2, 1 do -- Enquanto cont for menor ou igual a 2 ele é incrementado de 1 a 1
+		-- escolhe a posicão do portaAvioes
+		player1:escolher_posicoesPortaAvioes(pos1, pos2, pos3, pos4, pos5)
+		player2:escolher_posicoesPortaAvioes()
+	end -- fecha o comando "for"
+	for cont = 1, 4, 1 do
+		-- escolhe a posicão do navioTanque
+		player1:escolher_posicoesNavioTanque(pos1, pos2, pos3, pos4)
+		player2:escolher_posicoesNavioTanque()
+	end -- fecha o comando "for"
+	for cont = 1, 6, 1 do
+		-- escolhe a posicão do contratorpedo
+		player1:escolher_posicoesContratorpedo(pos1, pos2, pos3)
+		player2:escolher_posicoesContratorpedo()
+	end
+	for cont = 1, 8, 1 do
+		-- escolhe a posicão do submarinos
+		player1:escolher_posicoesSubmarino(pos1, pos2)
+		player2:escolher_posicoesSubmarino()
+	end
+end
 
--- terceiro escolhe a posicão do contratorpedo
---player1:escolher_posicoesContratorpedo(pos1, pos2, pos3)
---player2:escolher_posicoesContratorpedo()
+------------------------- aqui finaliza funcao posicionar navios -------------------------------
 
--- quarto escolhe a posicão do submarino
---player1:escolher_posicoesSubmarino(pos1, pos2)
---player2:escolher_posicoesSubmarino()
 
+----------------------------- funcao iniciar jogo -------------------------------------------
 function verificaJogada(nomePlayer)
 	-- verificaPosicao no tabuleiro. Se posicao branca, errou e nao pontua. chama joga do outro player.
 	-- Se posicao vermelha, acertou e atualiza placar do player (chama incrementaPontuacao de Placar).
