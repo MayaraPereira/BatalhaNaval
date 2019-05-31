@@ -6,7 +6,7 @@ function contratorpedo.novo()
 	posicionamento = {}
 
 	function instancia:adicionar_posicao(posicao)
-		table.insert(posicao, posicionamento)
+		table.insert(posicionamento, posicao)
 	end
 
 	return instancia

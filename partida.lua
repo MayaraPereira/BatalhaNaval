@@ -7,6 +7,7 @@ local navioTanque = require("entidades/navioTanque")
 local contratorpedo = require("entidades/contratorpedo")
 local submarino = require("entidades/submarino")
 
+-- isso aqui deve estar dentro de uma funcao iniciar partida
 --criando tabuleiros
 local tabPlayer1 = tabuleiro.novo(2)
 local tabPlayer2 = tabuleiro.novo(2)
@@ -28,7 +29,11 @@ local player2 = maquina.novo(tabPlayer2)
 print(player1.tabuleiro.posicoes[1])
 print(player2.tabuleiroMaquina.posicoes[1])
 
+-- chama funcao posicionar navios
 
+--- aqui finaliza iniciar partida -----
+
+---isso aqui deve estar dentro de uma funcao chamada posicionar navios
 -- primeiro escolhe a posicão do portaAvioes (pos1, pos2, pos3, pos4, pos5)
 --player1:escolher_posicoesPortaAvioes(pos1, pos2, pos3, pos4, pos5)
 --player2:escolher_posicoesPortaAvioes()

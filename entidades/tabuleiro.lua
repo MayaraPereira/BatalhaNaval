@@ -1,3 +1,8 @@
+local portaAvioes = require("portaAvioes")
+local navioTanque = require("navioTanque")
+local contratorpedo = require("contratorpedo")
+local submarino = require("submarino")
+
 local tabuleiro = {}
 
 function tabuleiro.novo(tipo)
@@ -5,6 +10,7 @@ function tabuleiro.novo(tipo)
 		posicoes = {},
 		statusPosicao = {},
 		qtdPosicoesNavios = 0,
+		navios = {},
 		tipo = tipo
 	}
 
@@ -15,7 +21,21 @@ function tabuleiro.novo(tipo)
 						"D1", "D2", "D3", "D4", "D5", "E1", "E2", "E3", "E4", "E5"}
 			self.statusPosicao = {"vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia",
 							"vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia"}
-			self.qtdPosicoesNavios = 4
+			self.qtdPosicoesNavios = 11
+
+			-- criando os navios de acordo com o tamanho do tabuleiro
+			NT1 = navioTanque.novo()
+			table.insert(self.navios, NT1)
+
+			CT1 = contratorpedo.novo()
+			table.insert(self.navios, CT1)
+
+			S1 = submarino.novo()
+			S2 = submarino.novo()
+			table.insert(self.navios, S1)
+			table.insert(self.navios, S2)
+
+
 		elseif tipo == 2 then
 			self.posicoes = {"A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8", "A9", "A10", "B1", "B2", "B3", "B4", "B5", "B6", "B7", "B8", "B9", "B10",
 						"C1", "C2", "C3", "C4", "C5", "C6", "C7", "C8", "C9", "C10", "D1", "D2", "D3", "D4", "D5", "D6", "D7", "D8", "D9", "D10",
@@ -32,7 +52,33 @@ function tabuleiro.novo(tipo)
 							"vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia",
 							"vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia",
 							"vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia"}
-			self.qtdPosicoesNavios = 10
+			self.qtdPosicoesNavios = 30
+
+			-- criando os navios de acordo com o tamanho do tabuleiro
+			PA1 = portaAvioes.novo()
+			table.insert(PA1, self.navios)
+
+			NT1 = navioTanque.novo()
+			NT2 = navioTanque.novo()
+			table.insert(self.navios, NT1)
+			table.insert(self.navios, NT2)
+
+			CT1 = contratorpedo.novo()
+			CT2 = contratorpedo.novo()
+			CT3 = contratorpedo.novo()
+			table.insert(self.navios, CT1)
+			table.insert(self.navios, CT2)
+			table.insert(self.navios, CT3)
+
+			S1 = submarino.novo()
+			S2 = submarino.novo()
+			S3 = submarino.novo()
+			S4 = submarino.novo()
+			table.insert(self.navios, S1)
+			table.insert(self.navios, S1)
+			table.insert(self.navios, S1)
+			table.insert(self.navios, S1)
+
 		elseif tipo == 3 then
 			self.posicoes = {"A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8", "A9", "A10", "A11", "A12", "A13", "A14", "A15", "A16", "A17", "A18", "A19", "A20",
 						"B1", "B2", "B3", "B4", "B5", "B6", "B7", "B8", "B9", "B10", "B11", "B12", "B13", "B14", "B15", "B16", "B17", "B18", "B19", "B20",
@@ -74,7 +120,53 @@ function tabuleiro.novo(tipo)
 							"vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia",
 							"vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia",
 							"vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia"}
-			self.qtdPosicoesNavios = 20
+			self.qtdPosicoesNavios = 60
+
+			-- criando os navios de acordo com o tamanho do tabuleiro
+			PA1 = portaAvioes.novo()
+			PA2 = portaAvioes.novo()
+			table.insert(self.navios, PA1)
+			table.insert(self.navios, PA2)
+
+			NT1 = navioTanque.novo()
+			NT2 = navioTanque.novo()
+			NT3 = navioTanque.novo()
+			NT4 = navioTanque.novo()
+			table.insert(self.navios, NT1)
+			table.insert(self.navios, NT2)
+			table.insert(self.navios, NT3)
+			table.insert(self.navios, NT4)
+
+			CT1 = contratorpedo.novo()
+			CT2 = contratorpedo.novo()
+			CT3 = contratorpedo.novo()
+			CT4 = contratorpedo.novo()
+			CT5 = contratorpedo.novo()
+			CT6 = contratorpedo.novo()
+			table.insert(self.navios, CT1)
+			table.insert(self.navios, CT2)
+			table.insert(self.navios, CT3)
+			table.insert(self.navios, CT4)
+			table.insert(self.navios, CT5)
+			table.insert(self.navios, CT6)
+
+			S1 = submarino.novo()
+			S2 = submarino.novo()
+			S3 = submarino.novo()
+			S4 = submarino.novo()
+			S5 = submarino.novo()
+			S6 = submarino.novo()
+			S7 = submarino.novo()
+			S8 = submarino.novo()
+			table.insert(self.navios, S1)
+			table.insert(self.navios, S2)
+			table.insert(self.navios, S3)
+			table.insert(self.navios, S4)
+			table.insert(self.navios, S5)
+			table.insert(self.navios, S6)
+			table.insert(self.navios, S7)
+			table.insert(self.navios, S8)
+
 		else
 			print("Tipo inválido!")
 			return false
@@ -107,7 +199,7 @@ function tabuleiro.novo(tipo)
 	end
 
 	-- o metodo marca a posicao de acordo com o status da posicao escolhida
-	function instancia:marcaPosicao(posicao, operacao)
+	function instancia:marcaPosicao(posicao, operacao, numeroNavio)
 		if operacao == "tiro" then
 			if self.statusPosicao[self:capturaIndex(posicao)] == "vazia" then
 				self.statusPosicao[self:capturaIndex(posicao)] = "branco"
@@ -115,20 +207,66 @@ function tabuleiro.novo(tipo)
 			elseif self.statusPosicao[self:capturaIndex(posicao)] == "preto" then
 				self.statusPosicao[self:capturaIndex(posicao)] = "vermelho"
 				self.qtdPosicoesNavios = self.qtdPosicoesNavios - 1
+				self:excluiPosicao(posicao)
 				return true
-				-- diminuir posicao no barco atingido
 			end
 		else
+			-- verificando se a posicao escolhida esta vazia
 			if self.statusPosicao[self:capturaIndex(posicao)] == "vazia" then
+				-- marcando a posicao do tabuleiro de preto (ocupado)
 				self.statusPosicao[self:capturaIndex(posicao)] = "preto"
 				if operacao == "PA" then
 					-- acrescentar posicao no barco porta avioes
+					if numeroNavio == 1 and table.maxn(self.PA1.posicionamento) < 6 then
+						self.PA1:adicionar_posicao(posicao)
+					elseif numeroNavio == 2 and table.maxn(self.PA2.posicionamento) < 6 then
+						self.PA2:adicionar_posicao(posicao)
+					end
 				elseif operacao == "NT" then
-					-- acrescentar posicao no barco porta avioes
+					-- acrescentar posicao no navioTanque
+					if numeroNavio == 1 and table.maxn(self.NT1.posicionamento) < 5 then
+						self.NT1:adicionar_posicao(posicao)
+					elseif numeroNavio == 2 and table.maxn(self.NT2.posicionamento) < 5 then
+						self.NT2:adicionar_posicao(posicao)
+					elseif numeroNavio == 3 and table.maxn(self.NT3.posicionamento) < 5 then
+						self.NT3:adicionar_posicao(posicao)
+					elseif numeroNavio == 4 and table.maxn(self.NT4.posicionamento) < 5 then
+						self.NT4:adicionar_posicao(posicao)
+					end
 				elseif operacao == "CT" then
-					-- acrescentar posicao no barco porta avioes
+					-- acrescentar posicao no barco contratorpedo
+					if numeroNavio == 1 and table.maxn(self.CT1.posicionamento) < 4 then
+						self.CT1:adicionar_posicao(posicao)
+					elseif numeroNavio == 2 and table.maxn(self.CT2.posicionamento) < 4 then
+						self.CT2:adicionar_posicao(posicao)
+					elseif numeroNavio == 3 and table.maxn(self.CT3.posicionamento) < 4 then
+						self.CT3:adicionar_posicao(posicao)
+					elseif numeroNavio == 4 and table.maxn(self.CT4.posicionamento) < 4 then
+						self.CT4:adicionar_posicao(posicao)
+					elseif numeroNavio == 5 and table.maxn(self.CT5.posicionamento) < 4 then
+						self.CT5:adicionar_posicao(posicao)
+					elseif numeroNavio == 6 and table.maxn(self.CT6.posicionamento) < 4 then
+						self.CT6:adicionar_posicao(posicao)
+					end
 				elseif operacao == "S" then
-					-- acrescentar posicao no barco porta avioes
+					-- acrescentar posicao no submarino
+					if numeroNavio == 1 and table.maxn(self.S1.posicionamento) < 3 then
+						self.S1:adicionar_posicao(posicao)
+					elseif numeroNavio == 2 and table.maxn(self.S2.posicionamento) < 3 then
+						self.S2:adicionar_posicao(posicao)
+					elseif numeroNavio == 3 and table.maxn(self.S3.posicionamento) < 3 then
+						self.S3:adicionar_posicao(posicao)
+					elseif numeroNavio == 4 and table.maxn(self.S4.posicionamento) < 3 then
+						self.S4:adicionar_posicao(posicao)
+					elseif numeroNavio == 5 and table.maxn(self.S5.posicionamento) < 3 then
+						self.S5:adicionar_posicao(posicao)
+					elseif numeroNavio == 6 and table.maxn(self.S6.posicionamento) < 3 then
+						self.S6:adicionar_posicao(posicao)
+					elseif numeroNavio == 7 and table.maxn(self.S7.posicionamento) < 3 then
+						self.S7:adicionar_posicao(posicao)
+					elseif numeroNavio == 8 and table.maxn(self.S8.posicionamento) < 3 then
+						self.S8:adicionar_posicao(posicao)
+					end
 				else
 					print("Operacao invalida")
 					return false
@@ -144,7 +282,7 @@ function tabuleiro.novo(tipo)
 		end
 	end
 
-	-- crian uma lista com todos os indices
+	-- cria uma lista com todos os indices
 	function instancia:capturaIndex(posicao)
 		local index = {}
 		for k,v in pairs(self.posicoes) do
@@ -152,6 +290,19 @@ function tabuleiro.novo(tipo)
 		end
 
 		return index[posicao]
+	end
+
+	-- exclui posicao qnd um navio eh atingido
+	function instancia:excluiPosicao(posicao)
+		-- percorro a table navios
+		for key,value in pairs(self.navios) do
+			-- percorro a table posicionamento de cada navio
+			for k,v in pairs(self.navios[key].posicionamento) do
+				if v == posicao then
+					table.remove(self.navios[key].posicionamento, k)
+				end
+			end
+		end
 	end
 
 	return instancia
