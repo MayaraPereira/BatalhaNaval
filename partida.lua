@@ -7,6 +7,25 @@ local navioTanque = require("entidades/navioTanque")
 local contratorpedo = require("entidades/contratorpedo")
 local submarino = require("entidades/submarino")
 
+
+function finalizarPartida(nomePlayer)
+	-- exibe tela avisando que o jogo sera perdido, se true volta para menu, se false permanece na tela atual
+end
+
+function registrarVencedor(player)
+	-- exibe mensagem de quem venceu
+	if (player.nome ~= "maquina") then
+		-- verifica se placarPlayer1.pontos eh maior que a pontuacao do ultimo registro do ranking top 10
+		-- se entrar no top 10, colocar na posicao correta chamando o metodo registraPontuacao(player1)
+			-- se empatar, compara o tempoP1 com o tempo da posicao empatada
+	end
+end
+
+function registraPontuacao(player)
+	-- pega player1.nome, placarPlayer1.pontos e tempoP1 e registra no bd, atualizando a tela de ranking
+end
+
+
 ------------------------------------ funcao iniciar partida -----------------------------------
 --criando tabuleiros
 local tabPlayer1 = tabuleiro.novo(2)
@@ -101,24 +120,52 @@ end
 ------------------------- aqui finaliza funcao posicionar navios -------------------------------
 
 
------------------------------ funcao iniciar jogo -------------------------------------------
-function verificaJogada(nomePlayer)
-	-- verificaPosicao no tabuleiro. Se posicao branca, errou e nao pontua. chama joga do outro player.
-	-- Se posicao vermelha, acertou e atualiza placar do player (chama incrementaPontuacao de Placar).
-		-- dependendo do tamanho do tabuleiro, se o numero de jogadas do nomePlayer for maior ou igual que 20 (20x20), 10 (10x10) ou 4 (4x4) entao:
-			-- se qtdPosicaoNavios do tabuleiro do jogador que nao Ã© nomePlayer for 0, o nomePlayer ganhou a partida, entao:
-				-- chama registraPontuacao
+----------------------------- funcao iniciar jogo ----------------------------------------------
+-- definindo os placares para cada player
+local placarPlayer1 = placar.novo()
+local placarPlayer2 = placar.novo()
 
-end
+local tempoP1 = 0
+local tempoP2 = 0
 
-function atualizaPlacar(nomePlayer)
-	-- chama incrementaPontuacao de Pla
-end
+-- a partir daqui as posicoes de tiros são recebidas (player1 comeca)
 
-function finalizarPartida(nomePlayer)
-	-- volta para menu avisando que o jogo sera perdido
-end
-
-function registraPontuacao(nomePlayer)
-	-- pega os pontos do placar de nomePlayer e registra no bd
-end
+while (true) do
+    if (player2.tabuleiroMaquina.qtdPosicaoNavios ~= 0) then -- Se qtdPosicaoNavios de player2 for diferente de 0, player1 joga
+		-- guardando o tempo inicial da jogada
+		local tempoPlayer1 = os.time()
+        -- recebe a posicao na tela
+		local qtdAtual = player2.tabuleiroMaquina.qtdPosicaoNavios
+		if (player1:joga(posicao) == true) then
+			if (qtdAtual > player2.tabuleiroMaquina.qtdPosicaoNavios) then
+				print("Acertou!")
+				placarPlayer1:incrementarPontos()
+				if (player2.tabuleiroMaquina.qtdPosicaoNavios == 0) then
+					registrarVencedor(player1)
+					break
+				end
+			else
+				print("Errou!")
+			end
+		else
+			print("Jogada Invalida. Perdeu a vez.")
+		end
+		-- contabilizando o tempo de cada jogada
+		tempoP1 = tempoP1 + (os.time() - tempoPlayer1)
+    if (player1.tabuleiro.qtdPosicaoNavios ~= 0) then -- Se qtdPosicaoNavios de player1 for diferente de 0, player2 joga
+		local tempoPlayer2 = os.time()
+		local qtdAtual = player1.tabuleiro.qtdPosicaoNavios
+		if (player2:joga() == true) then
+			if (qtdAtual > player1.tabuleiro.qtdPosicaoNavios) then
+				placarPlayer2:incrementarPontos()
+				if (player1.tabuleiro.qtdPosicaoNavios == 0) then
+					registrarVencedor(player2)
+					break
+				end
+			end
+		end
+	end
+	-- contabilizando o tempo de cada jogada
+	tempoP2 = tempoP2 + (os.time() - tempoPlayer2)
+end -- fecha o comando "while"
+------------------------- aqui finaliza funcao iniciar jogo -------------------------------

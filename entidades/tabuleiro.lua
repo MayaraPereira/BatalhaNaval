@@ -1,7 +1,7 @@
-local portaAvioes = require("portaAvioes")
-local navioTanque = require("navioTanque")
-local contratorpedo = require("contratorpedo")
-local submarino = require("submarino")
+local portaAvioes = require("entidades/portaAvioes")
+local navioTanque = require("entidades/navioTanque")
+local contratorpedo = require("entidades/contratorpedo")
+local submarino = require("entidades/submarino")
 
 local tabuleiro = {}
 

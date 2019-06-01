@@ -91,16 +91,12 @@ function player.novo(nome,tabuleiro)
 		print(self.tabuleiro[pos1])
 	end
 
-	function instancia:joga(self, nome, posicao)
+	function instancia:joga(posicao)
 		-- chama marcaPosicao de tabuleiro. Depois chama verificaJogada de partida
 	end
 
 	function instancia:cancelaPartida()
 		-- chama finalizaJogo de partida
-	end
-
-	function instancia:posicionaNavio(tipoNavio)
-		-- chama marcaPosicao de tabuleiro.
 	end
 
 	return instancia

@@ -1,8 +1,7 @@
 local placar = {}
 
-function placar.novo(dono)
+function placar.novo()
 	local instancia = {
-		dono = dono,
 		pontos = 0
 	}
 
