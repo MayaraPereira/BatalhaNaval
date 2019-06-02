@@ -69,11 +69,11 @@ function posicionarNavioTanque(qtdNavios)
 
 	while(cont1 <= qtdNavios and cont2 <= qtdNavios) do
 		-- escolhe a posicão do navioTanque
-		if (player1:escolher_posicoesNavioTanque(pos1, pos2, pos3, pos4, cont1) == true) then
+		if (cont1 <= qtdNavios and player1:escolher_posicoesNavioTanque(pos1, pos2, pos3, pos4, cont1) == true) then
 			player1:escolher_posicoesNavioTanque(pos1, pos2, pos3, pos4, cont1)
 			cont1 = cont1 + 1
 		end
-		if (player2:escolher_posicoesNavioTanque(cont2) == true) then
+		if (cont2 <= qtdNavios and player2:escolher_posicoesNavioTanque(cont2) == true) then
 			player2:escolher_posicoesNavioTanque(cont2)
 			cont2 = cont2 + 1
 		end
