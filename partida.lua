@@ -7,6 +7,35 @@ local navioTanque = require("entidades/navioTanque")
 local contratorpedo = require("entidades/contratorpedo")
 local submarino = require("entidades/submarino")
 
+-- *************************************** INICIO CRIACAO DE ENTIDADES ***********************************************
+
+--criando tabuleiros
+local tabPlayer1 = tabuleiro.novo(2)
+local tabPlayer2 = tabuleiro.novo(2)
+
+--montando tabuleiros de acordo com o tipo
+tabPlayer1:montarTabuleiro(tabPlayer1:verificaTipo())
+tabPlayer2:montarTabuleiro(tabPlayer2:verificaTipo())
+
+
+-- testanto se os tamanhos estao corretos
+print(tabPlayer1.posicoes[#tabPlayer1.posicoes])
+print(tabPlayer2.posicoes[#tabPlayer2.posicoes])
+
+-- criando jogadores, antes disso deve receber o nome do jogador ("nome")
+local player1 = player.novo("nome", tabPlayer1)
+local player2 = maquina.novo(tabPlayer2)
+
+-- testando se os tabuleiros estao associados corretamente com os players
+print(player1.tabuleiro.posicoes[1])
+print(player2.tabuleiroMaquina.posicoes[1])
+
+-- definindo os placares para cada player
+local placarPlayer1 = placar.novo()
+local placarPlayer2 = placar.novo()
+
+-- *************************************** FIM CRIACAO DE ENTIDADES ***********************************************
+
 
 -- ******************************************* INICIO DEFINICAO FUNCOES **************************************************************
 
@@ -19,12 +48,12 @@ function posicionarPortaAvioes(qtdPortaAvioes)
 	-- recebe as posicoes do portaAvioes
 	while(cont1 <= qtdPortaAvioes and cont2 <= qtdPortaAvioes) do
 		-- escolhe a posicão do portaAvioes
-		if (player1:escolher_posicoesPortaAvioes(pos1, pos2, pos3, pos4, pos5) == true) then
-			player1:escolher_posicoesPortaAvioes(pos1, pos2, pos3, pos4, pos5)
+		if (player1:escolher_posicoesPortaAvioes(pos1, pos2, pos3, pos4, pos5, cont1) == true) then
+			player1:escolher_posicoesPortaAvioes(pos1, pos2, pos3, pos4, pos5, cont1)
 			cont1 = cont1 + 1
 		end
-		if (player2:escolher_posicoesPortaAvioes() == true) then
-			player2:escolher_posicoesPortaAvioes()
+		if (player2:escolher_posicoesPortaAvioes(cont2) == true) then
+			player2:escolher_posicoesPortaAvioes(cont2)
 			cont2 = cont2 + 1
 		end
 	end
@@ -40,12 +69,12 @@ function posicionarNavioTanque(qtdNavios)
 
 	while(cont1 <= qtdNavios and cont2 <= qtdNavios) do
 		-- escolhe a posicão do navioTanque
-		if (player1:escolher_posicoesNavioTanque(pos1, pos2, pos3, pos4) == true) then
-			player1:escolher_posicoesNavioTanque(pos1, pos2, pos3, pos4)
+		if (player1:escolher_posicoesNavioTanque(pos1, pos2, pos3, pos4, cont1) == true) then
+			player1:escolher_posicoesNavioTanque(pos1, pos2, pos3, pos4, cont1)
 			cont1 = cont1 + 1
 		end
-		if (player2:escolher_posicoesNavioTanque() == true) then
-			player2:escolher_posicoesNavioTanque()
+		if (player2:escolher_posicoesNavioTanque(cont2) == true) then
+			player2:escolher_posicoesNavioTanque(cont2)
 			cont2 = cont2 + 1
 		end
 	end
@@ -61,12 +90,12 @@ function posicionarContratorpedo(qtdContratorpedos)
 	-- recebe as posicoes do contratorpedo
 	while(cont1 <= qtdContratorpedos and cont2 <= qtdContratorpedos) do
 		-- escolhe a posicão do contratorpedo
-		if (player1:escolher_posicoesContratorpedo(pos1, pos2, pos3) == true) then
-			player1:escolher_posicoesContratorpedo(pos1, pos2, pos3)
+		if (player1:escolher_posicoesContratorpedo(pos1, pos2, pos3, cont1) == true) then
+			player1:escolher_posicoesContratorpedo(pos1, pos2, pos3, cont1)
 			cont1 = cont1 + 1
 		end
-		if (player2:escolher_posicoesContratorpedo() == true) then
-			player2:escolher_posicoesContratorpedo()
+		if (player2:escolher_posicoesContratorpedo(cont2) == true) then
+			player2:escolher_posicoesContratorpedo(cont2)
 			cont2 = cont2 + 1
 		end
 	end
@@ -82,12 +111,12 @@ function posicionarSubmarino(qtdSubmarinos)
 	-- recebe as posicoes do submarino
 	while(cont1 <= qtdSubmarinos and cont2 <= qtdSubmarinos) do
 		-- escolhe a posicão do submarinos
-		if (player1:escolher_posicoesSubmarino(pos1, pos2) == true) then
-			player1:escolher_posicoesSubmarino(pos1, pos2)
+		if (player1:escolher_posicoesSubmarino(pos1, pos2, cont1) == true) then
+			player1:escolher_posicoesSubmarino(pos1, pos2, cont1)
 			cont1 = cont1 + 1
 		end
-		if (player2:escolher_posicoesSubmarino() == true) then
-			player2:escolher_posicoesSubmarino()
+		if (player2:escolher_posicoesSubmarino(cont2) == true) then
+			player2:escolher_posicoesSubmarino(cont2)
 			cont2 = cont2 + 1
 		end
 	end
@@ -179,6 +208,7 @@ function iniciarAtaque()
 			end
 		else
 			print("Por algum motivo " .. player1.nome .. "venceu!")
+			break
 		end
 		if (tabPlayer1.qtdPosicaoNavios ~= 0) then -- Se qtdPosicaoNavios de player1 for diferente de 0, player2 joga
 			local tempoPlayer2 = os.time()
@@ -196,47 +226,28 @@ function iniciarAtaque()
 			end
 		else
 			print("Por algum motivo " .. player2.nome .. "venceu!")
+			break
 		end
 	end -- fecha o comando "while"
 end
 ------------------------- aqui finaliza funcao iniciar ataque -------------------------------
 
+------------------------- inicio funcao finalizarPartida -------------------------------
+
 function finalizarPartida()
 	-- exibe tela avisando que o jogo sera perdido, se true volta para menu, se false permanece na tela atual
 end
 
+------------------------- aqui finaliza funcao finalizarPartida -------------------------------
+
 
 -- ******************************************* FIM DEFINICAO FUNCOES **************************************************************
 
-
-
--- *************************************** CHAMADA DE FUNCOES E CRIACAO DE ENTIDADES ***********************************************
---criando tabuleiros
-local tabPlayer1 = tabuleiro.novo(2)
-local tabPlayer2 = tabuleiro.novo(2)
-
---montando tabuleiros de acordo com o tipo
-tabPlayer1:montarTabuleiro(tabPlayer1:verificaTipo())
-tabPlayer2:montarTabuleiro(tabPlayer2:verificaTipo())
-
-
--- testanto se os tamanhos estao corretos
-print(tabPlayer1.posicoes[#tabPlayer1.posicoes])
-print(tabPlayer2.posicoes[#tabPlayer2.posicoes])
-
--- criando jogadores, antes disso deve receber o nome do jogador ("nome")
-local player1 = player.novo("nome", tabPlayer1)
-local player2 = maquina.novo(tabPlayer2)
-
--- testando se os tabuleiros estao associados corretamente com os players
-print(player1.tabuleiro.posicoes[1])
-print(player2.tabuleiroMaquina.posicoes[1])
-
+-- *************************************** INICIO CHAMADA DE FUNCOES ***********************************************
 -- chama funcao posicionar navios
-posicionarNavios()
+posicionarNavios(tabPlayer1)
 
--- definindo os placares para cada player
-local placarPlayer1 = placar.novo()
-local placarPlayer2 = placar.novo()
+-- chama funcao iniciarAtaque
+iniciarAtaque()
 
--- *************************************** FIM CHAMADA DE FUNCOES E CRIACAO DE ENTIDADES ***********************************************
+-- *************************************** FIM CHAMADA DE FUNCOES ***********************************************
