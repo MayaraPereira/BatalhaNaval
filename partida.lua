@@ -71,9 +71,9 @@ function posicionarContratorpedo(qtdContratorpedos)
 		end
 	end
 end
------------------------------------------------ fim funcao posicionar contratorpedo(qtdContratorpedos) ------------------------------------------
+---------------------------------- fim funcao posicionar contratorpedo(qtdContratorpedos) ------------------------------------------
 
----------------------------------------------- funcao posicionar submarino(qtdSubmarinos) -----------------------------------------------
+-------------------------------------- funcao posicionar submarino(qtdSubmarinos) -----------------------------------------------
 function posicionarSubmarino(qtdSubmarinos)
 	-- dentro desta funcao deve receber as posicoes dos submarinos (telas)
 	local cont1 = 0
@@ -92,25 +92,7 @@ function posicionarSubmarino(qtdSubmarinos)
 		end
 	end
 end
------------------------------------------------ fim funcao posicionar submarino(qtdSubmarinos) ------------------------------------------
-
-function finalizarPartida()
-	-- exibe tela avisando que o jogo sera perdido, se true volta para menu, se false permanece na tela atual
-end
-
-function registrarVencedor(instanciaPlayer)
-	-- exibe mensagem de quem venceu
-	if (instanciaPlayer.nome ~= "maquina") then
-		-- verifica se placarPlayer1.pontos eh maior que a pontuacao do ultimo registro do ranking top 10
-		-- se entrar no top 10, colocar na posicao correta chamando o metodo registraPontuacao()
-			-- se empatar, compara o tempoP1 com o tempo da posicao empatada
-	end
-end
-
-function registraPontuacao()
-	-- pega player1.nome, placarPlayer1.pontos e tempoP1 e registra no bd, atualizando a tela de ranking
-end
-
+--------------------------------- fim funcao posicionar submarino(qtdSubmarinos) ------------------------------------------
 
 ------------------------------------- funcao posicionar navios ---------------------------------
 function posicionarNavios()
@@ -146,6 +128,25 @@ function posicionarNavios()
 end
 
 ------------------------- aqui finaliza funcao posicionar navios -------------------------------
+
+----------------------------- funcao registrarVencedor ----------------------------------------------
+
+function registrarVencedor(instanciaPlayer)
+	-- exibe mensagem de quem venceu
+	if (instanciaPlayer.nome ~= "maquina") then
+		-- verifica se placarPlayer1.pontos eh maior que a pontuacao do ultimo registro do ranking top 10
+		-- se entrar no top 10, colocar na posicao correta chamando o metodo registraPontuacao()
+			-- se empatar, compara o tempoP1 com o tempo da posicao empatada
+	end
+end
+------------------------- aqui finaliza funcao registrarVencedor -------------------------------
+
+----------------------------- funcao registraPontuacao ----------------------------------------------
+function registraPontuacao()
+	-- pega player1.nome, placarPlayer1.pontos e tempoP1 e registra no bd, atualizando a tela de ranking
+end
+------------------------- aqui finaliza funcao registraPontuacao -------------------------------
+
 
 ----------------------------- funcao iniciar ataque ----------------------------------------------
 
@@ -199,6 +200,11 @@ function iniciarAtaque()
 	end -- fecha o comando "while"
 end
 ------------------------- aqui finaliza funcao iniciar ataque -------------------------------
+
+function finalizarPartida()
+	-- exibe tela avisando que o jogo sera perdido, se true volta para menu, se false permanece na tela atual
+end
+
 
 -- ******************************************* FIM DEFINICAO FUNCOES **************************************************************
 
