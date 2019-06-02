@@ -11,6 +11,7 @@ function tabuleiro.novo(tipo)
 		statusPosicao = {},
 		qtdPosicoesNavios = 0,
 		navios = {},
+		letras = {},
 		tipo = tipo
 	}
 
@@ -22,6 +23,8 @@ function tabuleiro.novo(tipo)
 			self.statusPosicao = {"vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia",
 							"vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia"}
 			self.qtdPosicoesNavios = 11
+
+			self.letras = {"A", "B", "C", "D", "E"}
 
 			-- criando os navios de acordo com o tamanho do tabuleiro
 			NT1 = navioTanque.novo()
@@ -53,6 +56,8 @@ function tabuleiro.novo(tipo)
 							"vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia",
 							"vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia"}
 			self.qtdPosicoesNavios = 30
+
+			self.letras = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"}
 
 			-- criando os navios de acordo com o tamanho do tabuleiro
 			PA1 = portaAvioes.novo()
@@ -121,6 +126,8 @@ function tabuleiro.novo(tipo)
 							"vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia",
 							"vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia", "vazia"}
 			self.qtdPosicoesNavios = 60
+
+			self.letras = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V"}
 
 			-- criando os navios de acordo com o tamanho do tabuleiro
 			PA1 = portaAvioes.novo()
