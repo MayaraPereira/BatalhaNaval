@@ -224,6 +224,7 @@ function iniciarAtaque()
 			-- acrescentar uma input para posicao alvo. recebe a posicao na tela
 			local qtdAtual = tabPlayer2.qtdPosicaoNavios
 			if (player1:joga(posicao) == true) then
+				player1:joga(posicao)
 				-- contabilizando o tempo de cada jogada
 				tempoP1 = tempoP1 + (os.time() - tempoPlayer1)
 				if (qtdAtual > tabPlayer2.qtdPosicaoNavios) then
@@ -234,6 +235,7 @@ function iniciarAtaque()
 						break
 					end
 				else
+					placarPlayer1:decrementarPontos()
 					print("Errou!")
 				end
 			else
@@ -243,10 +245,11 @@ function iniciarAtaque()
 			print("Por algum motivo " .. player1.nome .. "venceu!")
 			break
 		end
-		if (tabPlayer1.qtdPosicaoNavios ~= 0) then -- Se qtdPosicaoNavios de player1 for diferente de 0, player2 joga
+		if (tabPlayer1.qtdPosicaoNavios ~= 0) then -- Se qtdPosicaoNavios de player1 for diferente de 0, player2 (maquina) joga
 			local tempoPlayer2 = os.time()
 			local qtdAtual = tabPlayer1.qtdPosicaoNavios
 			if (player2:joga() == true) then
+				player2:joga()
 				-- contabilizando o tempo de cada jogada
 				tempoP2 = tempoP2 + (os.time() - tempoPlayer2)
 				if (qtdAtual > tabPlayer1.qtdPosicaoNavios) then
@@ -255,6 +258,8 @@ function iniciarAtaque()
 						registrarVencedor(player2)
 						break
 					end
+				else
+					placarPlayer2:decrementarPontos()
 				end
 			end
 		else

@@ -7,14 +7,18 @@ function placar.novo()
 
 	function instancia:incrementaPontos(tipoDeBarco)
 		if tipoDeBarco == "porta" then
-			pontos = pontos + 1
+			self.pontos = self.pontos + 1
 		elseif tipoDeBarco == "navio" then
-			pontos = pontos + 2
+			self.pontos = self.pontos + 2
 		elseif tipoDeBarco == "contratorpedeiro" then
-			pontos = pontos + 3
+			self.pontos = self.pontos + 3
 		elseif tipoDeBarco == "submarino" then
-			pontos = pontos + 4
+			self.pontos = self.pontos + 4
 		end
+	end
+
+	function instancia:decrementaPontos()
+		self.pontos = self.pontos - 1
 	end
 
 	return instancia
