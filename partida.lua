@@ -7,37 +7,75 @@ local navioTanque = require("entidades/navioTanque")
 local contratorpedo = require("entidades/contratorpedo")
 local submarino = require("entidades/submarino")
 
+-- FRONT: TELA INICIAL COM BOTOES: NOVA PARTIDA, RANKING, INSTRUÇÕES E SAIR
+
+-- FRONT: BOTAO NOVA PARTIDA: NOVA TELA (SELEÇÃO DE TABULEIROS, BOTÕES CONTINUAR E CANCELAR) PARA SELECIONAR O TIPO DE TABULEIRO(5X5 (tipo 1), 10X10 (tipo 2) E 20X20 (tipo 3)).
+--        QUANDO O JOGADOR SELECIONAR O TIPO, CLICA NO BOTAO CONTINUAR. O BOTAO CONTINUAR CHAMA A FUNCAO criarEMontarTabuleiros(tipo). O BOTAO CANCELAR VOLTA PARA A TELA INICIAL.
+-- 		  APÓS PRESSIONAR CONTINUAR E FUNCAO criarEMontarTabuleiros(tipo) == true, EXIBE UMA NOVA TELA PARA CADASTRO DO PLAYER (BARRA DE INPUT PARA NICKNAME E BOTÕES CONTINUAR E
+--		  CANCELAR). O PLAYER PREENCHE O CAMPO COM SEU NICKNAME E CLICA NO BOTAO CONTINUAR. O BOTAO CONTINUAR CHAMA A FUNCAO criarPlayerPlacar(nome). O BOTAO CANCELAR VOLTA PARA
+--		  A TELA INICIAL. APÓS PRESSIONAR CONTINUAR E FUNCAO criarPlayerPlacar(nome) == true, EXIBE UMA NOVA TELA PARA POSICIONAR NAVIOS (TABULEIRO, BARRA DE INPUT PARA POSICOES,
+--		  BOTAO CONFIRMA PARA FIXAR POSICOES DO BARCO, E BOTÕES INICIAR E CANCELAR) E CHAMA A FUNCAO posicionarNavios(). EXIBE AO USUARIO QUAL O BARCO QUE ELE IRA POSICIONAR.
+--		  QUANDO USUARIO PREENCHER A BARRA DE INPUT COM TODAS AS POSICOES REFERENTES AO BARCO SEPARADAS POR VIRGULA E CLICAR EM CONFIRMA, DEVE-SE ATUALIZAR O TABULEIRO COM AS
+--        POSICOES CORRESPONDENTES EM PRETO. ESSE PROCESSO DE POSICIONAMENTO DEPENDE DIRETAMENTE DO TIPO DE TABULEIRO. O BOTAO CANCELAR VOLTA PARA A TELA INICIAL. QUANDO TODOS OS
+--		  BARCOS ESTIVEREM POSICIONADOS A PARTIDA INICIA. EXIBE UMA NOVA TELA PARA A PARTIDA (2 TABULEIROS (TIROS DADOS E TABULEIRO PROPRIO), BARRA DE INPUT PARA A POSICAO ALVO,
+--		  BOTOES ATIRAR E FINALIZAR) CHAMA A FUNCAO iniciarAtaque(). QUANDO USUARIO PREENCHER A BARRA DE INPUT COM A POSICAO QUE QUER ATIRAR E CLICAR NO BOTAO ATIRAR, ESSA POSICAO
+--		  E PASSADA PARA A CHAMADA DE OUTRA FUNCAO DENTRO DA iniciarAtaque(). EXIBIR EM FORMA DE CONSOLE MENSAGENS COMO: ACERTOU, ERROU, JOGA INVÁLIDA. QUANDO UM USUARIO VENCER
+--		  EXIBE UMA MENSAGEM COM O NOME DE QUEM VENCEU E RETORNA PARA A TELA INICIAL. O BOTAO FINALIZAR CHAMA A FUNCAO finalizarPartida().
+
+-- FRONT: BOTAO RANKING: NOVA TELA (TABELA COM NICKNAME, TEMPO E PONTUACAO DOS 5 MELHORES JOGADORES, E BOTAO VOLTAR). BOTAO VOLTAR RETORNA A TELA INICIAL.
+
+-- FRONT: BOTAO INSTRUCOES: NOVA TELA (COM TODAS AS REGRAS DE JOGO E CARACTERÍSTICAS DOS TABULEIROS, BOTAO VOLTAR). BOTAO VOLTAR RETORNA A TELA INICIAL.
+
+-- FRONT: BOTAO SAIR: MATA O JOGO.
+
+
 -- *************************************** INICIO CRIACAO DE ENTIDADES ***********************************************
 
 --criando tabuleiros
-local tabPlayer1 = tabuleiro.novo(2)
-local tabPlayer2 = tabuleiro.novo(2)
+local tabPlayer1 -- = tabuleiro.novo(2)
+local tabPlayer2 -- = tabuleiro.novo(2)
 
 --montando tabuleiros de acordo com o tipo
-tabPlayer1:montarTabuleiro(tabPlayer1:verificaTipo())
-tabPlayer2:montarTabuleiro(tabPlayer2:verificaTipo())
-
-
--- testanto se os tamanhos estao corretos
-print(tabPlayer1.posicoes[#tabPlayer1.posicoes])
-print(tabPlayer2.posicoes[#tabPlayer2.posicoes])
+-- tabPlayer1:montarTabuleiro(tabPlayer1:verificaTipo())
+-- tabPlayer2:montarTabuleiro(tabPlayer2:verificaTipo())
 
 -- criando jogadores, antes disso deve receber o nome do jogador ("nome")
-local player1 = player.novo("nome", tabPlayer1)
-local player2 = maquina.novo(tabPlayer2)
-
--- testando se os tabuleiros estao associados corretamente com os players
-print(player1.tabuleiro.posicoes[1])
-print(player2.tabuleiroMaquina.posicoes[1])
+local player1 -- = player.novo("nome", tabPlayer1)
+local player2 -- = maquina.novo(tabPlayer2)
 
 -- definindo os placares para cada player
-local placarPlayer1 = placar.novo()
-local placarPlayer2 = placar.novo()
+local placarPlayer1 --= placar.novo()
+local placarPlayer2 -- = placar.novo()
 
 -- *************************************** FIM CRIACAO DE ENTIDADES ***********************************************
 
 
 -- ******************************************* INICIO DEFINICAO FUNCOES **************************************************************
+
+---------------------------------------------- funcao criar e montarTabuleiro(tipoDoTabuleiro) -----------------------------------------------
+function criarEMontarTabuleiros(tipoDoTabuleiro)
+	tabPlayer1 = tabuleiro.novo(tipoDoTabuleiro)
+	tabPlayer2 = tabuleiro.novo(tipoDoTabuleiro)
+
+	tabPlayer1:montarTabuleiro(tabPlayer1:verificaTipo())
+	tabPlayer2:montarTabuleiro(tabPlayer2:verificaTipo())
+	return true
+end
+
+----------------------------------------------- fim funcao criar e montarTabuleiro(tipoDoTabuleiro) ------------------------------------------
+
+---------------------------------------------- funcao criarPlayerPlacar(nome) -----------------------------------------------
+function criarPlayerPlacar(nome)
+	player1 = player.novo(nome, tabPlayer1)
+	player2 = maquina.novo(tabPlayer2)
+
+	placarPlayer1 = placar.novo()
+	placarPlayer2 = placar.novo()
+
+	return true
+end
+
+----------------------------------------------- fim funcao criarPlayerPlacar(nome) ------------------------------------------
 
 ---------------------------------------------- funcao posicionar portaAvioes(qtdPortaAvioes) -----------------------------------------------
 function posicionarPortaAvioes(qtdPortaAvioes)
@@ -45,9 +83,8 @@ function posicionarPortaAvioes(qtdPortaAvioes)
 	local cont1 = 0
 	local cont2 = 0
 
-	-- recebe as posicoes do portaAvioes
 	while(cont1 <= qtdPortaAvioes and cont2 <= qtdPortaAvioes) do
-		-- escolhe a posicão do portaAvioes
+		-- acrescentar uma input para pos1, pos2, pos3, pos4, pos5
 		if (player1:escolher_posicoesPortaAvioes(pos1, pos2, pos3, pos4, pos5, cont1) == true) then
 			player1:escolher_posicoesPortaAvioes(pos1, pos2, pos3, pos4, pos5, cont1)
 			cont1 = cont1 + 1
@@ -63,12 +100,11 @@ end
 
 ---------------------------------------------- funcao posicionar navio tanque(qtdNavios) -----------------------------------------------
 function posicionarNavioTanque(qtdNavios)
--- dentro desta funcao deve receber as posicoes dos navios tanque (telas)
 	local cont1 = 0
 	local cont2 = 0
 
 	while(cont1 <= qtdNavios and cont2 <= qtdNavios) do
-		-- escolhe a posicão do navioTanque
+		-- acrescentar uma input para pos1, pos2, pos3, pos4
 		if (cont1 <= qtdNavios and player1:escolher_posicoesNavioTanque(pos1, pos2, pos3, pos4, cont1) == true) then
 			player1:escolher_posicoesNavioTanque(pos1, pos2, pos3, pos4, cont1)
 			cont1 = cont1 + 1
@@ -83,13 +119,11 @@ end
 
 ---------------------------------------------- funcao posicionar contratorpedo(qtdContratorpedos) -----------------------------------------------
 function posicionarContratorpedo(qtdContratorpedos)
-	-- dentro desta funcao deve receber as posicoes dos contratorpedos (telas)
 	local cont1 = 0
 	local cont2 = 0
 
-	-- recebe as posicoes do contratorpedo
 	while(cont1 <= qtdContratorpedos and cont2 <= qtdContratorpedos) do
-		-- escolhe a posicão do contratorpedo
+		-- acrescentar uma input para pos1, pos2, pos3
 		if (player1:escolher_posicoesContratorpedo(pos1, pos2, pos3, cont1) == true) then
 			player1:escolher_posicoesContratorpedo(pos1, pos2, pos3, cont1)
 			cont1 = cont1 + 1
@@ -110,7 +144,7 @@ function posicionarSubmarino(qtdSubmarinos)
 
 	-- recebe as posicoes do submarino
 	while(cont1 <= qtdSubmarinos and cont2 <= qtdSubmarinos) do
-		-- escolhe a posicão do submarinos
+		-- acrescentar uma input para pos1, pos2
 		if (player1:escolher_posicoesSubmarino(pos1, pos2, cont1) == true) then
 			player1:escolher_posicoesSubmarino(pos1, pos2, cont1)
 			cont1 = cont1 + 1
@@ -183,12 +217,11 @@ function iniciarAtaque()
 	local tempoP1 = 0
 	local tempoP2 = 0
 
-	-- a partir daqui as posicoes de tiros são recebidas (player1 sempre comeca)
 	while (true) do
 		if (tabPlayer2.qtdPosicaoNavios ~= 0) then -- Se qtdPosicaoNavios de player2 for diferente de 0, player1 joga
 			-- guardando o tempo inicial da jogada
 			local tempoPlayer1 = os.time()
-			-- recebe a posicao na tela
+			-- acrescentar uma input para posicao alvo. recebe a posicao na tela
 			local qtdAtual = tabPlayer2.qtdPosicaoNavios
 			if (player1:joga(posicao) == true) then
 				-- contabilizando o tempo de cada jogada
@@ -244,6 +277,20 @@ end
 -- ******************************************* FIM DEFINICAO FUNCOES **************************************************************
 
 -- *************************************** INICIO CHAMADA DE FUNCOES ***********************************************
+-- chama funcao de criar e montar tabuleiros
+criarEMontarTabuleiros(2)
+
+-- testanto se os tamanhos estao corretos
+print(tabPlayer1.posicoes[#tabPlayer1.posicoes])
+print(tabPlayer2.posicoes[#tabPlayer2.posicoes])
+
+-- chama funcao de criar player e placar
+criarPlayerPlacar(nome)
+
+-- testando se os tabuleiros estao associados corretamente com os players
+print(player1.tabuleiro.posicoes[1])
+print(player2.tabuleiroMaquina.posicoes[1])
+
 -- chama funcao posicionar navios
 posicionarNavios(tabPlayer1)
 

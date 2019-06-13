@@ -199,7 +199,7 @@ function tabuleiro.novo(tipo)
 		end
 	end
 
-	-- o metodo verifica se a posicao esta com status vazio, branco, vermelho ou preto
+	-- o metodo verifica se a posicao esta com status vazio, branco (atirou na agua), vermelho (acertou barco) ou preto (tem barco)
 	function instancia:verificaPosicao(posicao)
 		-- mostra o status da posicao do tabuleiro
 		return self.statusPosicao[self.posicoes(posicao)]
@@ -287,6 +287,7 @@ function tabuleiro.novo(tipo)
 				return false
 			end
 		end
+		return false
 	end
 
 	-- cria uma lista com todos os indices

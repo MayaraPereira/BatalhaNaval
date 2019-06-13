@@ -4,7 +4,8 @@ function maquina.novo(tabuleiroMaquina)
 	local instancia = {
 		nome = 'maquina',
 		jogadasCertas = {},
-		tabuleiroMaquina = tabuleiroMaquina
+		tabuleiroMaquina = tabuleiroMaquina,
+		contJogadas = 0
 	}
 
 	-- distribuindo navios verticalmente e horizontalmente, atraves de random encontra-se o valor inicial do barco. Todo o resto é obtido a partir deste valor random.
@@ -159,9 +160,116 @@ function maquina.novo(tabuleiroMaquina)
 
 
 	function instancia:joga()
-		-- se nao for a primeira jogada, verifica se a ultima jogada (jogadasCertas[#jogadasCertas]) foi certa, se sim, escolhe entre as 4 posicoes vazias ao redor da posicao da ultima jogada certa
-		-- se todas as 4 posicoes estiverem marcadas (verificado atraves do marcaPosicao), entao joga aleatorio
-		-- chama marcaPosicao de tabuleiro. Depois chama verificaJogada de partida, se return true, add posicao em jogadasCertas (jogadasCertas[#jogadasCertas + 1] = posicao)
+		-- escolhe um numero aleatorio de acordo com o tamanho do tabuleiro
+		local numero = math.random(tabuleiroMaquina:verificaTamanho(self.tabuleiroMaquina.tipo))
+		numero = numero * numero
+		-- verifica se eh a primeira jogada
+		if self.contJogadas == 0 then
+			-- incrementa contador
+			self.contJogadas = self.contJogadas + 1
+			-- verifica se o tiro foi valido
+			if self.tabuleiroMaquina:marcaPosicao(self.tabuleiroMaquina.posicoes[numero], "tiro", 0) == true then
+				self.tabuleiroMaquina:marcaPosicao(self.tabuleiroMaquina.posicoes[numero], "tiro", 0)
+				-- verifica se o tiro acertou algum barco
+				if self.tabuleiroMaquina:verificaPosicao(self.tabuleiroMaquina.posicoes[numero]) == "vermelho" then
+					self.jogadasCertas[self.contJogadas] = numero
+				end
+				return true
+			else
+				return false
+			end
+		else
+			-- incrementa contador
+			self.contJogadas = self.contJogadas + 1
+			-- verifica se a penultima jogada foi certa
+			if self.jogadasCertas[self.contJogadas - 1] ~= nil then
+				-- tenta jogada valida na posicao a direira da ultima certa
+				if self.tabuleiroMaquina:marcaPosicao(self.tabuleiroMaquina.posicoes[self.jogadasCertas[self.contJogadas - 1] + 1], "tiro", 0) == true then
+					self.tabuleiroMaquina:marcaPosicao(self.tabuleiroMaquina.posicoes[self.jogadasCertas[self.contJogadas - 1] + 1], "tiro", 0)
+					if self.tabuleiroMaquina:verificaPosicao(self.tabuleiroMaquina.posicoes[self.jogadasCertas[self.contJogadas - 1] + 1]) == "vermelho" then
+						-- verifica se o tiro acertou algum barco
+						self.jogadasCertas[self.contJogadas] = self.jogadasCertas[self.contJogadas - 1] + 1
+					end
+					return true
+				-- tenta jogada valida na posicao a esquerda da ultima certa
+				elseif self.tabuleiroMaquina:marcaPosicao(self.tabuleiroMaquina.posicoes[self.jogadasCertas[self.contJogadas - 1] - 1], "tiro", 0) == true then
+					self.tabuleiroMaquina:marcaPosicao(self.tabuleiroMaquina.posicoes[self.jogadasCertas[self.contJogadas - 1] - 1], "tiro", 0)
+					if self.tabuleiroMaquina:verificaPosicao(self.tabuleiroMaquina.posicoes[self.jogadasCertas[self.contJogadas - 1] - 1]) == "vermelho" then
+						-- verifica se o tiro acertou algum barco
+						self.jogadasCertas[self.contJogadas] = self.jogadasCertas[self.contJogadas - 1] - 1
+					end
+					return true
+				-- tenta jogada valida na posicao acima da ultima certa
+				elseif self.tabuleiroMaquina:marcaPosicao(self.tabuleiroMaquina.posicoes[self.jogadasCertas[self.contJogadas - 1] - self.tabuleiroMaquina:verificaTamanho(self.tabuleiroMaquina.tipo)], "tiro", 0) == true then
+					self.tabuleiroMaquina:marcaPosicao(self.tabuleiroMaquina.posicoes[self.jogadasCertas[self.contJogadas - 1] - self.tabuleiroMaquina:verificaTamanho(self.tabuleiroMaquina.tipo)], "tiro", 0)
+					if self.tabuleiroMaquina:verificaPosicao(self.tabuleiroMaquina.posicoes[self.jogadasCertas[self.contJogadas - 1] - self.tabuleiroMaquina:verificaTamanho(self.tabuleiroMaquina.tipo)]) == "vermelho" then
+						-- verifica se o tiro acertou algum barco
+						self.jogadasCertas[self.contJogadas] = self.jogadasCertas[self.contJogadas - 1] - self.tabuleiroMaquina:verificaTamanho(self.tabuleiroMaquina.tipo)
+					end
+					return true
+				-- tenta jogada valida na posicao abaixo da ultima certa
+				elseif self.tabuleiroMaquina:marcaPosicao(self.tabuleiroMaquina.posicoes[self.jogadasCertas[self.contJogadas - 1] + self.tabuleiroMaquina:verificaTamanho(self.tabuleiroMaquina.tipo)]) == true then
+					self.tabuleiroMaquina:marcaPosicao(self.tabuleiroMaquina.posicoes[self.jogadasCertas[self.contJogadas - 1] + self.tabuleiroMaquina:verificaTamanho(self.tabuleiroMaquina.tipo)], "tiro", 0)
+					if self.tabuleiroMaquina:verificaPosicao(self.tabuleiroMaquina.posicoes[self.jogadasCertas[self.contJogadas - 1] + self.tabuleiroMaquina:verificaTamanho(self.tabuleiroMaquina.tipo)]) == "vermelho" then
+						-- verifica se o tiro acertou algum barco
+						self.jogadasCertas[self.contJogadas] = self.jogadasCertas[self.contJogadas - 1] + self.tabuleiroMaquina:verificaTamanho(self.tabuleiroMaquina.tipo)
+					end
+					return true
+				end
+			-- verifica se a antepenultima jogada foi certa, caso a penultima não tenha sido certa
+			elseif self.jogadasCertas[self.contJogadas - 2] ~= nil then
+				-- tenta jogada valida na posicao a direira da ultima certa
+				if self.tabuleiroMaquina:marcaPosicao(self.tabuleiroMaquina.posicoes[self.jogadasCertas[self.contJogadas - 2] + 1], "tiro", 0) == true then
+					self.tabuleiroMaquina:marcaPosicao(self.tabuleiroMaquina.posicoes[self.jogadasCertas[self.contJogadas - 2] + 1], "tiro", 0)
+					if self.tabuleiroMaquina:verificaPosicao(self.tabuleiroMaquina.posicoes[self.jogadasCertas[self.contJogadas - 2] + 1]) == "vermelho" then
+						-- verifica se o tiro acertou algum barco
+						self.jogadasCertas[self.contJogadas] = self.jogadasCertas[self.contJogadas - 2] + 1
+					end
+					return true
+				-- tenta jogada valida na posicao a esquerda da ultima certa
+				elseif self.tabuleiroMaquina:marcaPosicao(self.tabuleiroMaquina.posicoes[self.jogadasCertas[self.contJogadas - 2] - 1], "tiro", 0) == true then
+					self.tabuleiroMaquina:marcaPosicao(self.tabuleiroMaquina.posicoes[self.jogadasCertas[self.contJogadas - 2] - 1], "tiro", 0)
+					if self.tabuleiroMaquina:verificaPosicao(self.tabuleiroMaquina.posicoes[self.jogadasCertas[self.contJogadas - 2] - 1]) == "vermelho" then
+						-- verifica se o tiro acertou algum barco
+						self.jogadasCertas[self.contJogadas] = self.jogadasCertas[self.contJogadas - 2] - 1
+					end
+					return true
+				-- tenta jogada valida na posicao acima da ultima certa
+				elseif self.tabuleiroMaquina:marcaPosicao(self.tabuleiroMaquina.posicoes[self.jogadasCertas[self.contJogadas - 2] - self.tabuleiroMaquina:verificaTamanho(self.tabuleiroMaquina.tipo)], "tiro", 0) == true then
+					self.tabuleiroMaquina:marcaPosicao(self.tabuleiroMaquina.posicoes[self.jogadasCertas[self.contJogadas - 2] - self.tabuleiroMaquina:verificaTamanho(self.tabuleiroMaquina.tipo)], "tiro", 0)
+					if self.tabuleiroMaquina:verificaPosicao(self.tabuleiroMaquina.posicoes[self.jogadasCertas[self.contJogadas - 2] - self.tabuleiroMaquina:verificaTamanho(self.tabuleiroMaquina.tipo)]) == "vermelho" then
+						-- verifica se o tiro acertou algum barco
+						self.jogadasCertas[self.contJogadas] = self.jogadasCertas[self.contJogadas - 2] - self.tabuleiroMaquina:verificaTamanho(self.tabuleiroMaquina.tipo)
+					end
+					return true
+				-- tenta jogada valida na posicao abaixo da ultima certa
+				elseif self.tabuleiroMaquina:marcaPosicao(self.tabuleiroMaquina.posicoes[self.jogadasCertas[self.contJogadas - 2] + self.tabuleiroMaquina:verificaTamanho(self.tabuleiroMaquina.tipo)], "tiro", 0) == true then
+					self.tabuleiroMaquina:marcaPosicao(self.tabuleiroMaquina.posicoes[self.jogadasCertas[self.contJogadas - 2] + self.tabuleiroMaquina:verificaTamanho(self.tabuleiroMaquina.tipo)], "tiro", 0)
+					if self.tabuleiroMaquina:verificaPosicao(self.tabuleiroMaquina.posicoes[self.jogadasCertas[self.contJogadas - 2] + self.tabuleiroMaquina:verificaTamanho(self.tabuleiroMaquina.tipo)]) == "vermelho" then
+						-- verifica se o tiro acertou algum barco
+						self.jogadasCertas[self.contJogadas] = self.jogadasCertas[self.contJogadas - 2] + self.tabuleiroMaquina:verificaTamanho(self.tabuleiroMaquina.tipo)
+					end
+					return true
+				end
+			-- no caso de nem a penultima nem a antepenultima ter acertado um barco, volta para o aleatorio
+			else
+				-- continua no loop ate conseguir uma jogada valida aleatoria
+				repeat
+					-- verifica se o tiro foi valido
+					if self.tabuleiroMaquina:marcaPosicao(self.tabuleiroMaquina.posicoes[numero], "tiro", 0) == true then
+						self.tabuleiroMaquina:marcaPosicao(self.tabuleiroMaquina.posicoes[numero], "tiro", 0)
+						-- verifica se o tiro acertou algum barco
+						if self.tabuleiroMaquina:verificaPosicao(self.tabuleiroMaquina.posicoes[numero]) == "vermelho" then
+							self.jogadasCertas[self.contJogadas] = numero
+						end
+						return true
+					else
+						numero = math.random(self.tabuleiroMaquina:verificaTamanho(self.tabuleiroMaquina.tipo))
+						numero = numero * numero
+					end
+				until self.tabuleiroMaquina:marcaPosicao(self.tabuleiroMaquina.posicoes[numero], "tiro", 0) == true
+			end
+		end
 	end
 
 	return instancia
